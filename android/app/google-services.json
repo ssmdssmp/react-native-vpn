@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "445174206954",
+    "project_id": "vpn-2023-c2591",
+    "storage_bucket": "vpn-2023-c2591.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445174206954:android:a5bfcfbd4c63c1a154a293",
+        "android_client_info": {
+          "package_name": "com.vpn3001"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445174206954-n8aosodfo3akn4ugvtma89vsu9ce99vd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vpn3001",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "445174206954-79ar248tuhh9q8oeube2kvbfialrgoc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Wh5ARp3K92YRWu66q8J7Bkliv85Zno4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445174206954-79ar248tuhh9q8oeube2kvbfialrgoc8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
