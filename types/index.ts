@@ -63,6 +63,7 @@ export interface InitState {
   activeConnection: IConnection;
   configFileFolder: string;
   connectionStartTime: number;
+  isConfigLoading: boolean;
 }
 
 export const initUser: IUser = {
@@ -140,4 +141,5 @@ export const initialState: InitState = {
     reason: '',
   },
   configFileFolder: '',
+  isConfigLoading: false,
 };
