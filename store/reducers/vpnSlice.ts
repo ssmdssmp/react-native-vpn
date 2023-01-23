@@ -71,8 +71,10 @@ const vpnSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getCurrentIP.fulfilled, (state, {payload}) => {
-        state.currentIP.data = payload;
-        state.currentIP.loading = false;
+        if (payload.query !== '') {
+          state.currentIP.data = payload;
+          state.currentIP.loading = false;
+        }
       })
       .addCase(getCurrentIP.pending, state => {
         state.currentIP.loading = true;
