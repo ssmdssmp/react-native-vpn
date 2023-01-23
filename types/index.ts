@@ -105,22 +105,6 @@ export const initCurrentIP: ICurrentIP = {
   loading: false,
   rejected: false,
 };
-// export const freeVpnList = [
-//   {ovpnString: 'Poland1', country: 'pl', title: 'Poland 1'},
-//   {ovpnString: 'Turkey1', country: 'tr', title: 'Turkey 1'},
-//   {ovpnString: 'Sweden1', country: 'se', title: 'Sweden 1'},
-//   {ovpnString: 'KualaLumpur1', country: 'my', title: 'Kuala Lumpur 1'},
-//   {ovpnString: 'HongKong1', country: 'hk', title: 'Hong Kong 1'},
-//   {ovpnString: 'Japan_old', country: 'jp', title: 'Japan [killswitch test]'},
-// ];
-// export const premiumVpnList = [
-//   {ovpnString: 'London', country: 'gb', title: 'London'},
-//   {ovpnString: 'Paris', country: 'fr', title: 'Paris'},
-//   {ovpnString: 'Barcelona', country: 'es', title: 'Barcelona'},
-//   {ovpnString: 'Rome', country: 'it', title: 'Rome'},
-//   {ovpnString: 'Berlin', country: 'de', title: 'Berlin'},
-//   {ovpnString: 'Kyiv', country: 'ua', title: 'Kyiv'},
-// ];
 export const negativeFeedbackReasons = [
   'Проблема с подключением',
   'Неудобный интерфейс приложения',
@@ -144,7 +128,7 @@ export const initialState: InitState = {
   connectionState: {
     level: '',
     message: '',
-    state: 3, // 0 binded for error 1 - loading, 2 - connected
+    state: 3,
   },
   isBadConnection: false,
   freeVpnList: [],

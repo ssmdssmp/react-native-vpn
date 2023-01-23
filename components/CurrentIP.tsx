@@ -16,7 +16,9 @@ const CurrentIP = () => {
         className="text-[16px] font-semibold">
         {connectionState.state === 1 || currentIP.loading
           ? 'Определяется...'
-          : currentIP.data.query}
+          : currentIP.data.query
+          ? currentIP.data.query
+          : 'Невозможно определить IP'}
       </Text>
       <View className="rounded-full mb-1  overflow-hidden h-4 w-4 flex justify-center items-center">
         <CountryFlag

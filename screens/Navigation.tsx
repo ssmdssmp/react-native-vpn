@@ -59,6 +59,22 @@ export const Navigation = () => {
       if (res === null) {
         const jsonValue = JSON.stringify(initUser);
         AsyncStorage.setItem('User', jsonValue);
+        dispatch(setLocalUser(initUser));
+        firestore()
+          .collection('ovpn')
+          .get()
+          .then(res2 => {
+            res2.docs.map(item => {
+              const data = {...item.data(), id: item.id};
+              arr.push(data as IConnection);
+            });
+          })
+          .then(() => {
+            const newArr = arr;
+            dispatch(setFreeVpnList(newArr));
+            dispatch(setActiveConnection(newArr[0]));
+            downloadActiveVpnConfig(newArr[0], configFileForlderRef.current);
+          });
       } else {
         const value: IUser = JSON.parse(res);
         dispatch(setLocalUser(value));
@@ -74,7 +90,6 @@ export const Navigation = () => {
           .then(() => {
             const newArr = arr;
             dispatch(setFreeVpnList(newArr));
-
             if (
               value.settings.connectionType === 'last' &&
               value.lastConnection.objectName !== ''
@@ -88,7 +103,8 @@ export const Navigation = () => {
               dispatch(setActiveConnection(newArr[0]));
               downloadActiveVpnConfig(newArr[0], configFileForlderRef.current);
             }
-          });
+          })
+          .catch(err => console.log(err));
       }
     });
   }, []);
