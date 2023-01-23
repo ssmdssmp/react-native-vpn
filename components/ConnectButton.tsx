@@ -43,6 +43,58 @@ export const ConnectButton = () => {
   connectionStateRef.current = connectionState;
   userRef.current = user;
   currentIPRef.current = currentIP;
+
+  const setErrorAndReconnect = () => {
+    dispatch(setCurrentIPRejected(true));
+    firestore()
+      .collection('ovpn')
+      .doc(activeConnectionRef.current.id)
+      .set({
+        ...activeConnectionRef.current,
+        status: 'error',
+        connectionTime: 0,
+      })
+      .then(() => {
+        const newFreeVpnList = [
+          ...freeVpnList.filter(el => el.id !== activeConnectionRef.current.id),
+          {
+            ...activeConnectionRef.current,
+            status: 'error',
+            connectionTime: 0,
+          },
+        ];
+        dispatch(setFreeVpnList(newFreeVpnList));
+      })
+      .catch(err => console.log(err));
+    if (
+      freeVpnList.filter(el => el.title === activeConnection.title).length !==
+        1 &&
+      freeVpnList
+        .filter(el => el.title === activeConnection.title)
+        .filter(el => el.status === 'active')
+        .filter(el => el.id !== activeConnection.id).length !== 0
+    ) {
+      const newActiveConnection = freeVpnList
+        .filter(el => el.title === activeConnection.title)
+        .filter(el => el.id !== activeConnection.id)
+        .filter(el => el.status === 'active')[0];
+      dispatch(setActiveConnection(newActiveConnection));
+      RNFS.downloadFile({
+        fromUrl: newActiveConnection.url,
+        toFile: `${configFileFolder}/${newActiveConnection.objectName}`,
+      }).promise.then(res => {
+        if (res.statusCode === 200) {
+          dispatch(setCurrentIPRejected(false));
+          startOvpn();
+        }
+      });
+    } else {
+      setTimeout(() => {
+        dispatch(setCurrentIPRejected(false));
+      }, 3000);
+      // reconnect to another country
+    }
+  };
   //@ts-ignore
   useEffect(() => {
     async function observeVpn() {
@@ -89,15 +141,11 @@ export const ConnectButton = () => {
       }, 1000);
     }
     if (connectionState.state === 4) {
-      dispatch(setCurrentIPRejected(true));
-      setTimeout(() => {
-        dispatch(setCurrentIPRejected(false));
-      }, 5000);
+      setErrorAndReconnect();
     }
   }, [connectionState.state]);
 
   async function startOvpn() {
-    console.log(activeConnection);
     dispatch(setConnectionStartTime(new Date().getSeconds()));
     try {
       const ovpnString = await RNFS.readFile(
@@ -158,56 +206,7 @@ export const ConnectButton = () => {
         }, 10000);
       });
     } catch (error) {
-      dispatch(setCurrentIPRejected(true));
-      firestore()
-        .collection('ovpn')
-        .doc(activeConnectionRef.current.id)
-        .set({
-          ...activeConnectionRef.current,
-          status: 'error',
-          connectionTime: 0,
-        })
-        .then(() => {
-          const newFreeVpnList = [
-            ...freeVpnList.filter(
-              el => el.id !== activeConnectionRef.current.id,
-            ),
-            {
-              ...activeConnectionRef.current,
-              status: 'error',
-              connectionTime: 0,
-            },
-          ];
-
-          dispatch(setFreeVpnList(newFreeVpnList));
-        })
-        .catch(err => console.log(err));
-      if (
-        freeVpnList.filter(el => el.title === activeConnection.title).length !==
-          1 &&
-        freeVpnList
-          .filter(el => el.title === activeConnection.title)
-          .filter(el => el.status === 'active')
-          .filter(el => el.id !== activeConnection.id).length !== 0
-      ) {
-        const newActiveConnection = freeVpnList
-          .filter(el => el.title === activeConnection.title)
-          .filter(el => el.id !== activeConnection.id)
-          .filter(el => el.status === 'active')[0];
-        dispatch(setActiveConnection(newActiveConnection));
-        RNFS.downloadFile({
-          fromUrl: newActiveConnection.url,
-          toFile: `${configFileFolder}/${newActiveConnection.objectName}`,
-        }).promise.then(res => {
-          if (res.statusCode === 200) {
-            dispatch(setCurrentIPRejected(false));
-            startOvpn();
-          }
-        });
-      } else {
-        console.log('all errors');
-      }
-
+      setErrorAndReconnect();
       setTimeout(() => {
         dispatch(setCurrentIPRejected(false));
       }, 5000);

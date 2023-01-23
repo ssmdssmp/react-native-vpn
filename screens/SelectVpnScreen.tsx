@@ -33,14 +33,15 @@ const SelectVpnScreen = () => {
                 (value, index, self) =>
                   index === self.findIndex(t => t.title === value.title),
               )
+              .sort((f, s) => f.connectionTime - s.connectionTime)
               .sort(a => {
                 if (a.status === 'active') {
-                  return 1;
-                } else {
                   return -1;
+                } else {
+                  return 1;
                 }
               })
-              .sort((f, s) => f.connectionTime - s.connectionTime)
+
               .map(item => {
                 return <ConnectionItem key={nanoid()} item={item} />;
               })}
