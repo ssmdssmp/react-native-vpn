@@ -43,6 +43,9 @@ const vpnSlice = createSlice({
     setCurrentIP: (state, {payload}) => {
       state.currentIP = payload;
     },
+    setIsConfigLoading: (state, {payload}) => {
+      state.isConfigLoading = payload;
+    },
     setActiveConnection: (state, {payload}) => {
       state.activeConnection = payload;
       state.user.lastConnection = payload;
@@ -88,6 +91,7 @@ const vpnSlice = createSlice({
 });
 
 export const {
+  setIsConfigLoading,
   setFreeVpnList,
   setConfigFileFolder,
   setLocalUser,

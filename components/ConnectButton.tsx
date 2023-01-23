@@ -284,6 +284,9 @@ export const ConnectButton = () => {
             : 'Подключиться'}
         </Text>
         <RBSheet
+          onClose={() => {
+            dispatch(setIsFirstConnection(false));
+          }}
           //@ts-ignore
           ref={refAllowVPNconfig}
           closeOnDragDown={true}
@@ -301,10 +304,14 @@ export const ConnectButton = () => {
             },
           }}>
           <View className="w-full flex-col items-center gap-y-5">
-            <Text className="text-center text-lg font-semibold">
+            <Text
+              style={{color: themeEnum.FOCUSED_TEXT_COLOR}}
+              className="text-center text-lg font-semibold">
               Нам нужно ваше разрешение чтобы подключится к VPN
             </Text>
-            <Text className="text-center px-2">
+            <Text
+              style={{color: themeEnum.FOCUSED_TEXT_COLOR}}
+              className="text-center px-2">
               На следующем экране вам будет предложено установить VPN
               конфигурацию - разрешите установку для дальнейшей работы Planet
               VPN
