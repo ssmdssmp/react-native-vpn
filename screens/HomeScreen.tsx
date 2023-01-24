@@ -6,14 +6,11 @@ import {themeEnum} from '../types/themeEnum';
 import SelectVpn from '../components/SelectVpn';
 import CurrentIP from '../components/CurrentIP';
 import ProtectionAlert from '../components/ProtectionAlert';
-import SupportPopup from '../components/SupportPopup';
 import {useAppSelector} from '../hooks/redux';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = () => {
-  const {isOpenSupportPopup, connectionState, currentIP} = useAppSelector(
-    ({vpn}) => vpn,
-  );
+  const {connectionState, currentIP} = useAppSelector(({vpn}) => vpn);
 
   return (
     <View
@@ -59,7 +56,6 @@ const HomeScreen = () => {
       <View className="flex-col w-full items-center">
         <ConnectButton />
       </View>
-      {isOpenSupportPopup ? <SupportPopup /> : null}
     </View>
   );
 };

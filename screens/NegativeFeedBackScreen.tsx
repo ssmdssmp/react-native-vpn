@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TextInput, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import firestore from '@react-native-firebase/firestore';
 import {themeEnum} from '../types/themeEnum';
 import RadioButton from '../components/RadioButton';
 import {nanoid} from '@reduxjs/toolkit';
@@ -19,6 +20,11 @@ const NegativeFeedBackScreen = () => {
           enableReinitialize={true}
           initialValues={{problemType: negativeFeedBack.reason, message: ''}}
           onSubmit={(values, actions) => {
+            firestore()
+              .collection('feedback')
+              .add(values)
+              .then(res => console.log(res))
+              .catch(err => console.log(err));
             actions.resetForm();
           }}
           validationSchema={() =>
@@ -45,6 +51,7 @@ const NegativeFeedBackScreen = () => {
               <View className="w-full pt-5   px-4 flex-col gap-y-2">
                 {negativeFeedBack.reasons.map(item => (
                   <TouchableHighlight
+                    className="rounded-md"
                     key={nanoid()}
                     onPress={() => {
                       dispatch(setNegativeFeedbackReason(item));
@@ -53,13 +60,15 @@ const NegativeFeedBackScreen = () => {
                       style={{
                         backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,
                       }}
-                      className="h-12 rounded-md flex-row items-center px-2 gap-x-2">
+                      className="h-12 rounded-md  flex-row items-center px-2 ">
                       <RadioButton
                         selected={
                           negativeFeedBack.reason === item ? true : false
                         }
                       />
-                      <Text style={{color: themeEnum.FOCUSED_TEXT_COLOR}}>
+                      <Text
+                        className="ml-2"
+                        style={{color: themeEnum.FOCUSED_TEXT_COLOR}}>
                         {item}
                       </Text>
                     </View>

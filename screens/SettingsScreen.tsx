@@ -4,20 +4,16 @@ import {View, Text, TouchableHighlight} from 'react-native';
 import {Switch} from 'react-native-gesture-handler';
 import {themeEnum} from '../types/themeEnum';
 import RadioButton from '../components/RadioButton';
-import {SelectList} from 'react-native-select-bottom-list';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import {
   toggleAutoconnection,
   toggleKillswitch,
   setConnectionType,
-  setProtocol,
 } from '../store/reducers/vpnSlice';
-import SupportPopup from '../components/SupportPopup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingsScreen = () => {
   const dispatch = useAppDispatch();
-  const {isOpenSupportPopup, user} = useAppSelector(({vpn}) => vpn);
+  const {user} = useAppSelector(({vpn}) => vpn);
   return (
     <View
       className="w-full h-full "
@@ -158,56 +154,7 @@ const SettingsScreen = () => {
             />
           </View>
         </TouchableHighlight>
-        <View
-          style={{borderColor: themeEnum.FOCUSED_COLOR}}
-          className=" py-2 px-4  border-b  w-full flex-col justify-center items-center ">
-          <View className="flex-col w-full  gap-y-2">
-            <Text
-              style={{color: themeEnum.DARK_TEXT_COLOR}}
-              className="text-lg font-semibold">
-              Выберите протокол
-            </Text>
-            <SelectList
-              style={{
-                backgroundColor: 'white',
-                borderRadius: 8,
-
-                color: 'grey',
-                borderColor: 'transparent',
-              }}
-              textStyle={{
-                color: 'grey',
-              }}
-              renderIcon={() => (
-                <Ionicon name="chevron-down" size={15} color="grey" />
-              )}
-              itemTextStyle={{
-                color: themeEnum.TOOLS_INACTIVE_COLOR,
-                fontWeight: '700',
-              }}
-              onSelect={item => {
-                dispatch(setProtocol(item));
-                const jsonValue = JSON.stringify({
-                  ...user,
-                  settings: {
-                    ...user.settings,
-                    protocol: item,
-                  },
-                });
-
-                AsyncStorage.setItem('User', jsonValue);
-              }}
-              value={user.settings.protocol}
-              data={[
-                'OpenVPN TCP',
-                'IKEv2 (недоступен)',
-                'OpenVPN UDP (недоступен)',
-              ]}
-            />
-          </View>
-        </View>
       </View>
-      {isOpenSupportPopup ? <SupportPopup /> : null}
     </View>
   );
 };

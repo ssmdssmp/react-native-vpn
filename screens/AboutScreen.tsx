@@ -3,11 +3,8 @@ import {View, Text} from 'react-native';
 import {themeEnum} from '../types/themeEnum';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import PrivacyLinks from '../components/PrivacyLinks';
-import SupportPopup from '../components/SupportPopup';
-import {useAppSelector} from '../hooks/redux';
 
 const AboutScreen = () => {
-  const {isOpenSupportPopup} = useAppSelector(({vpn}) => vpn);
   return (
     <View
       style={{backgroundColor: themeEnum.BODY_BACKGROUD_COLOR}}
@@ -29,7 +26,6 @@ const AboutScreen = () => {
           <PrivacyLinks />
         </View>
       </View>
-      {isOpenSupportPopup ? <SupportPopup /> : null}
     </View>
   );
 };
