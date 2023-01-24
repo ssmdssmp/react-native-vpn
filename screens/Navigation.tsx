@@ -3,13 +3,13 @@ import React, {useEffect, useRef} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './HomeScreen';
-import LoginScreen from './LoginScreen';
 import {
   setActiveConnection,
   setConfigFileFolder,
   setFreeVpnList,
   setLocalUser,
 } from '../store/reducers/vpnSlice';
+import SupportWebview from '../components/SupportWebview';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {themeEnum} from '../types/themeEnum';
 import {TouchableHighlight} from 'react-native';
@@ -31,7 +31,33 @@ import PrivacyPolicyWebview from '../components/PrivacyPolicyWebview';
 import UseConditionsWebview from '../components/UseConditionsWebview';
 import RNFS from 'react-native-fs';
 const Drawer = createDrawerNavigator();
-
+function PrivacyLinksNavigator() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="About"
+      screenOptions={{headerShown: false}}>
+      <Drawer.Screen name="About" component={AboutScreen} />
+      <Drawer.Screen
+        options={({navigation}) => ({
+          headerLeft: () => (
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => navigation.navigate('About')}>
+              <Ionicon
+                name="chevron-back"
+                size={25}
+                color={themeEnum.FOCUSED_TEXT_COLOR}
+              />
+            </TouchableHighlight>
+          ),
+        })}
+        name="PrivacyPolicy"
+        component={PrivacyPolicyWebview}
+      />
+      <Drawer.Screen name="UseConditions" component={UseConditionsWebview} />
+    </Drawer.Navigator>
+  );
+}
 export const Navigation = () => {
   const {configFileFolder} = useAppSelector(({vpn}) => vpn);
   const configFileForlderRef = useRef(configFileFolder);
@@ -161,7 +187,8 @@ export const Navigation = () => {
             },
           }}
         />
-        <Drawer.Screen name="About" component={AboutScreen} />
+        <Drawer.Screen name="Support" component={SupportWebview} />
+        <Drawer.Screen name="About" component={PrivacyLinksNavigator} />
         <Drawer.Screen
           name="SelectVpn"
           component={SelectVpnScreen}
@@ -178,11 +205,6 @@ export const Navigation = () => {
               </TouchableHighlight>
             ),
           })}
-        />
-        <Drawer.Screen
-          name="Login"
-          options={{headerShown: false}}
-          component={LoginScreen}
         />
 
         <Drawer.Screen
@@ -202,42 +224,6 @@ export const Navigation = () => {
             ),
           })}
           component={NegativeFeedBackScreen}
-        />
-        <Drawer.Screen
-          name="PrivacyPolicy"
-          options={({navigation}) => ({
-            headerLeft: () => (
-              <TouchableHighlight
-                onPress={() => navigation.navigate('About')}
-                underlayColor="none"
-                className="flex justify-center items-center pl-4">
-                <Ionicon
-                  name="chevron-back"
-                  size={25}
-                  color={themeEnum.FOCUSED_TEXT_COLOR}
-                />
-              </TouchableHighlight>
-            ),
-          })}
-          component={PrivacyPolicyWebview}
-        />
-        <Drawer.Screen
-          name="UseConditions"
-          options={({navigation}) => ({
-            headerLeft: () => (
-              <TouchableHighlight
-                onPress={() => navigation.navigate('About')}
-                underlayColor="none"
-                className="flex justify-center items-center pl-4">
-                <Ionicon
-                  name="chevron-back"
-                  size={25}
-                  color={themeEnum.FOCUSED_TEXT_COLOR}
-                />
-              </TouchableHighlight>
-            ),
-          })}
-          component={UseConditionsWebview}
         />
       </Drawer.Navigator>
     </NavigationContainer>

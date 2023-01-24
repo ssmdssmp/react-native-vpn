@@ -89,9 +89,7 @@ export const ConnectButton = () => {
         }
       });
     } else {
-      setTimeout(() => {
-        dispatch(setCurrentIPRejected(false));
-      }, 3000);
+      stopOvpn();
       // reconnect to another country
     }
   };
@@ -102,7 +100,7 @@ export const ConnectButton = () => {
         await RNSimpleOpenvpn.observeState();
       }
       addVpnStateListener(e => {
-        // console.log(log, e);
+        console.log(log, e);
         dispatch(setVpnConnectionState(e));
         updateLog(JSON.stringify(e));
       });
@@ -146,6 +144,7 @@ export const ConnectButton = () => {
   }, [connectionState.state]);
 
   async function startOvpn() {
+    dispatch(setCurrentIPRejected(false));
     dispatch(setConnectionStartTime(new Date().getSeconds()));
     try {
       const ovpnString = await RNFS.readFile(
@@ -160,7 +159,7 @@ export const ConnectButton = () => {
       }).then(() => {
         setTimeout(() => {
           if (connectionStateRef.current.state !== 2) {
-            stopOvpn();
+            setErrorAndReconnect();
           } else {
             if (activeConnectionRef.current.status === 'error') {
               firestore()
@@ -203,7 +202,7 @@ export const ConnectButton = () => {
               }, 5000);
             }
           }
-        }, 10000);
+        }, 15000);
       });
     } catch (error) {
       setErrorAndReconnect();
@@ -214,8 +213,9 @@ export const ConnectButton = () => {
   }
   useEffect(() => {
     if (
-      user.settings.autoconnection === true &&
-      activeConnection.title !== ''
+      (user.settings.autoconnection === true &&
+        activeConnection.title !== '') ||
+      connectionState.state === 2
     ) {
       RNFS.downloadFile({
         fromUrl: `${activeConnection.url}`,

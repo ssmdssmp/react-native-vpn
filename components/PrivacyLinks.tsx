@@ -34,20 +34,6 @@ const PrivacyLinks = () => {
           Условия использования
         </Text>
       </TouchableHighlight>
-      <TouchableHighlight
-        underlayColor="none"
-        //@ts-ignore
-        onPress={() => navigation.navigate('SelectPlan')}
-        style={{
-          borderColor: themeEnum.SUCCESS_COLOR,
-        }}
-        className="w-11/12 h-12 rounded-md flex justify-center items-center border">
-        <Text
-          className="text-lg font-semibold"
-          style={{color: themeEnum.SUCCESS_COLOR}}>
-          Подписки
-        </Text>
-      </TouchableHighlight>
     </View>
   );
 };
