@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-community/netinfo": "^9.3.7",
     "@react-native-firebase/app": "^16.5.0",
     "@react-native-firebase/database": "^16.5.0",
     "@react-native-firebase/firestore": "^16.5.0",

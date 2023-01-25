@@ -7,8 +7,10 @@ import {
   setActiveConnection,
   setConfigFileFolder,
   setFreeVpnList,
+  setIsNetworkReachable,
   setLocalUser,
 } from '../store/reducers/vpnSlice';
+
 import SupportWebview from '../components/SupportWebview';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {themeEnum} from '../types/themeEnum';
@@ -30,6 +32,7 @@ import {IConnection, initUser, IUser} from '../types';
 import PrivacyPolicyWebview from '../components/PrivacyPolicyWebview';
 import UseConditionsWebview from '../components/UseConditionsWebview';
 import RNFS from 'react-native-fs';
+import NetInfo from '@react-native-community/netinfo';
 const Drawer = createDrawerNavigator();
 function PrivacyLinksNavigator() {
   return (
@@ -78,6 +81,9 @@ export const Navigation = () => {
   };
 
   useEffect(() => {
+    NetInfo.fetch()
+      .then(res => dispatch(setIsNetworkReachable(res.isConnected)))
+      .catch(err => console.log(err));
     dispatch(getCurrentIP());
     setCurrentConfigFileFolder();
     let arr: IConnection[] = [];

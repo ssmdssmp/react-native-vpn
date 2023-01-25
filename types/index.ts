@@ -64,6 +64,7 @@ export interface InitState {
   configFileFolder: string;
   connectionStartTime: number;
   isConfigLoading: boolean;
+  isNetworkReachable: boolean;
 }
 
 export const initUser: IUser = {
@@ -142,4 +143,5 @@ export const initialState: InitState = {
   },
   configFileFolder: '',
   isConfigLoading: false,
+  isNetworkReachable: false,
 };

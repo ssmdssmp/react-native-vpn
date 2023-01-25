@@ -85,10 +85,13 @@ const NegativeFeedBackScreen = () => {
                     onChangeText={handleChange('message')}
                     value={values.message}
                     onBlur={handleBlur('name')}
-                    style={{backgroundColor: themeEnum.BODY_BACKGROUD_COLOR}}
+                    style={{
+                      backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,
+                      color: themeEnum.DARK_TEXT_COLOR,
+                    }}
                     multiline={true}
                     textAlignVertical="top"
-                    className="h-16 p-3 rounded-md"
+                    className="h-16 p-3 rounded-md font-bold"
                   />
                 </View>
               </View>

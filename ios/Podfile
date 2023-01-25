@@ -23,6 +23,8 @@ target 'vpn3001' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'RNNetworkState', :path => '../node_modules/react-native-network-state'
+
   target 'vpn3001Tests' do
     inherit! :complete
     # Pods for testing

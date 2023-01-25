@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {initialState} from '../../types/';
 import {getCurrentIP} from '../../hooks/http';
 import {initUser} from '../../types/';
+
 const vpnSlice = createSlice({
   name: 'vpn',
   initialState,
@@ -70,13 +71,22 @@ const vpnSlice = createSlice({
     setConnectionStartTime: (state, {payload}) => {
       state.connectionStartTime = payload;
     },
+    setIsNetworkReachable: (state, {payload}) => {
+      state.isNetworkReachable = payload;
+      if (payload === false) {
+        state.currentIP.loading = false;
+        state.currentIP.data.query = 'Сеть недоступна';
+      }
+    },
   },
   extraReducers: builder => {
     builder
       .addCase(getCurrentIP.fulfilled, (state, {payload}) => {
-        if (payload.query !== '') {
+        if (payload.query !== undefined) {
           state.currentIP.data = payload;
           state.currentIP.loading = false;
+        } else {
+          state.currentIP.data.query = ' Ошибка получения IP';
         }
       })
       .addCase(getCurrentIP.pending, state => {
@@ -91,6 +101,7 @@ const vpnSlice = createSlice({
 });
 
 export const {
+  setIsNetworkReachable,
   setIsConfigLoading,
   setFreeVpnList,
   setConfigFileFolder,

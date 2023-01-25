@@ -11,6 +11,7 @@ const CurrentIP = () => {
       <Text style={{color: themeEnum.FOCUSED_TEXT_COLOR}} className="text-xs">
         Ваш IP:
       </Text>
+
       <Text
         style={{color: themeEnum.FOCUSED_TEXT_COLOR}}
         className="text-[16px] font-semibold">
