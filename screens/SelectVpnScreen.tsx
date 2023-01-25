@@ -8,7 +8,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useAppSelector} from '../hooks/redux';
 import ConnectionItem from '../components/ConnectionItem';
 const SelectVpnScreen = () => {
-  const {freeVpnList} = useAppSelector(({vpn}) => vpn);
+  const {freeVpnList, isNetworkReachable} = useAppSelector(({vpn}) => vpn);
 
   return (
     <View className="w-full h-full justify-center flex-col items-center bg-white">
@@ -27,25 +27,40 @@ const SelectVpnScreen = () => {
             className="uppercase pl-2">
             Бесплатные сервера
           </Text>
-          <View className="flex-col ">
-            {freeVpnList
-              .filter(
-                (value, index, self) =>
-                  index === self.findIndex(t => t.title === value.title),
-              )
-              .sort((f, s) => f.connectionTime - s.connectionTime)
-              .sort(a => {
-                if (a.status === 'active') {
-                  return -1;
-                } else {
-                  return 1;
-                }
-              })
+          {isNetworkReachable ? (
+            <View className="flex-col ">
+              {freeVpnList
+                .filter(
+                  (value, index, self) =>
+                    index === self.findIndex(t => t.title === value.title),
+                )
+                .sort((f, s) => f.connectionTime - s.connectionTime)
+                .sort(a => {
+                  if (a.status === 'active') {
+                    return -1;
+                  } else {
+                    return 1;
+                  }
+                })
 
-              .map(item => {
-                return <ConnectionItem key={nanoid()} item={item} />;
-              })}
-          </View>
+                .map(item => {
+                  return <ConnectionItem key={nanoid()} item={item} />;
+                })}
+            </View>
+          ) : (
+            <View className=" gap-y-5 flex items-center justify-center">
+              <MaterialIcon
+                name="error-outline"
+                color={themeEnum.DARK_TEXT_COLOR}
+                size={45}
+              />
+              <Text
+                className="text-xl"
+                style={{color: themeEnum.DARK_TEXT_COLOR}}>
+                Сеть недоступна
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
