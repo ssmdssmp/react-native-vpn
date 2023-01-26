@@ -94,7 +94,7 @@ export const ConnectButton = () => {
         .filter(el => el.title === activeConnection.title)
         .filter(el => el.id !== activeConnection.id)
         .filter(el => el.status === 'active')[0];
-      console.log(newActiveConnection);
+
       dispatch(setActiveConnection(newActiveConnection));
       RNFS.downloadFile({
         fromUrl: newActiveConnection.url,
@@ -160,51 +160,50 @@ export const ConnectButton = () => {
     }
   }, [connectionState.state]);
   useEffect(() => {
-    const checkInternetInterval = setInterval(() => {
+    setInterval(() => {
       NetInfo.fetch().then(res => {
-        if (res.isConnected === false) {
-          stopOvpn();
-          dispatch(setIsNetworkReachable(false));
-        } else {
-          let arr: IConnection[] = [];
-          dispatch(setIsNetworkReachable(true));
-          if (freeVpnListRef.current.length === 0) {
-            firestore()
-              .collection('ovpn')
-              .get()
-              .then(res2 => {
-                res2.docs.map(item => {
-                  const data = {...item.data(), id: item.id};
-                  arr.push(data as IConnection);
-                });
-              })
-              .then(() => {
-                const newArr = arr;
-                dispatch(setFreeVpnList(newArr));
-                if (userRef.current.settings.connectionType === 'recommended') {
-                  dispatch(setActiveConnection(newArr[0]));
-                  downloadActiveVpnConfig(newArr[0], configFileFolder);
-                } else {
-                  dispatch(setActiveConnection(userRef.current.lastConnection));
-                  downloadActiveVpnConfig(
-                    userRef.current.lastConnection,
-                    configFileFolder,
-                  );
-                  clearInterval(checkInternetInterval);
-                }
-              });
-          } else {
-            clearInterval(checkInternetInterval);
-          }
-        }
-      }, 1000);
-    });
+        dispatch(setIsNetworkReachable(res.isConnected));
+      });
+    }, 1000);
   }, []);
+  useEffect(() => {
+    if (isNetworkReachableRef.current === true) {
+      dispatch(getCurrentIP());
+      if (freeVpnListRef.current.length === 0) {
+        let arr: IConnection[] = [];
+        firestore()
+          .collection('ovpn')
+          .get()
+          .then(res2 => {
+            res2.docs.map(item => {
+              const data = {...item.data(), id: item.id};
+              arr.push(data as IConnection);
+            });
+          })
+          .then(() => {
+            const newArr = arr;
+            dispatch(setFreeVpnList(newArr));
+            if (userRef.current.settings.connectionType === 'recommended') {
+              dispatch(setActiveConnection(newArr[0]));
+              downloadActiveVpnConfig(newArr[0], configFileFolder);
+            } else {
+              dispatch(setActiveConnection(userRef.current.lastConnection));
+              downloadActiveVpnConfig(
+                userRef.current.lastConnection,
+                configFileFolder,
+              );
+            }
+          })
+          .then(() => setCurrentIPRejected(false));
+      }
+    } else {
+      stopOvpn();
+    }
+  }, [isNetworkReachable]);
   async function startOvpn() {
     await NetInfo.fetch()
       .then(async () => {
         if (isNetworkReachableRef.current) {
-          dispatch(setIsNetworkReachable(true));
           dispatch(setCurrentIPRejected(false));
           dispatch(setConnectionStartTime(new Date().getSeconds()));
           try {
