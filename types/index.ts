@@ -19,7 +19,22 @@ export type currentIPDataType = {
   timezone: string;
   zip: string;
 };
-
+export const currentIPDataError = {
+  as: '',
+  city: '',
+  country: '',
+  countryCode: '',
+  isp: '',
+  lat: 0,
+  lon: 0,
+  org: '',
+  query: 'Ошибка получения IP',
+  region: '',
+  regionName: '',
+  status: '',
+  timezone: '',
+  zip: '',
+};
 export interface ICurrentIP {
   data: currentIPDataType;
   loading: boolean;

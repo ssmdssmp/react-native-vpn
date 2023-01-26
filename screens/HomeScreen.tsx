@@ -21,6 +21,7 @@ const HomeScreen = () => {
         <CurrentIP />
         <ProtectionAlert />
         <Text
+          className="text-center mt-2"
           style={{
             paddingTop: 5,
             color: currentIP.rejected
@@ -30,7 +31,7 @@ const HomeScreen = () => {
               : themeEnum.RED_COLOR,
           }}>
           {currentIP.rejected
-            ? 'Этот сервер недоступен, попробуйте другой'
+            ? 'Ошибка подключения. Проверьте настройки сети или попробуйте другой сервер'
             : currentIP.loading
             ? ' Проверка IP-адреса'
             : ''}
