@@ -161,7 +161,7 @@ export const Navigation = () => {
               }}>
               <Ionicon
                 name="share-social"
-                size={25}
+                size={24}
                 color={themeEnum.SUCCESS_COLOR}
               />
             </TouchableHighlight>
