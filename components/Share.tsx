@@ -1,10 +1,14 @@
-import {Share} from 'react-native';
+import { Share } from 'react-native';
 
-const debounce = require('lodash.debounce');
+let isOpenedShare = false;
 
-const onShare = debounce(async () => {
+const onShare = async () => {
+  if (!isOpenedShare) {
+
+    isOpenedShare = true;
+    setTimeout(() => isOpenedShare = false, 1000)
+
     try {
-      
       const result = await Share.share({
         message:
           'https://freevpnplanet.com/download',
@@ -20,7 +24,9 @@ const onShare = debounce(async () => {
       }
     } catch (error) {
       console.log(error);
-    } 
-},450);
+    }
+
+  }
+};
 
 export default onShare;

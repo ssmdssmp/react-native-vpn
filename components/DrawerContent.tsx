@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { themeEnum } from "../types/themeEnum";
 import { DrawerItem } from "@react-navigation/drawer";
@@ -38,9 +38,9 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           style={
             props.state.index === 0
               ? {
-                  ...drawerItemStyle,
-                  backgroundColor: themeEnum.FOCUSED_COLOR,
-                }
+                ...drawerItemStyle,
+                backgroundColor: themeEnum.FOCUSED_COLOR,
+              }
               : { ...drawerItemStyle }
           }
           labelStyle={{
@@ -62,10 +62,10 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           style={
             props.state.index === 1
               ? {
-                  ...drawerItemStyle,
-                  backgroundColor: themeEnum.FOCUSED_COLOR,
-                  paddingTop: 0,
-                }
+                ...drawerItemStyle,
+                backgroundColor: themeEnum.FOCUSED_COLOR,
+                paddingTop: 0,
+              }
               : { ...drawerItemStyle }
           }
           icon={() => <NavigationIcon name="settings-outline" />}
@@ -83,9 +83,9 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           style={
             props.state.index === 2
               ? {
-                  ...drawerItemStyle,
-                  backgroundColor: themeEnum.FOCUSED_COLOR,
-                }
+                ...drawerItemStyle,
+                backgroundColor: themeEnum.FOCUSED_COLOR,
+              }
               : { ...drawerItemStyle }
           }
           icon={() => <NavigationIcon name="chatbox-ellipses-outline" />}
@@ -103,9 +103,12 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           style={drawerItemStyle}
           icon={() => <NavigationIcon name="gift-outline" />}
           onPress={() => {
+
             onShare();
             dispatch(closeSupportPopup());
-          }}
+
+          }
+          }
         />
         <DrawerItem
           label="Оценить приложение"
@@ -129,9 +132,9 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           style={
             props.state.index === 3
               ? {
-                  ...drawerItemStyle,
-                  backgroundColor: themeEnum.FOCUSED_COLOR,
-                }
+                ...drawerItemStyle,
+                backgroundColor: themeEnum.FOCUSED_COLOR,
+              }
               : { ...drawerItemStyle }
           }
           icon={() => <NavigationIcon name="information-circle-outline" />}

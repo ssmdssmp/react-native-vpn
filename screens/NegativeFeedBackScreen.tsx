@@ -12,6 +12,7 @@ import { setNegativeFeedbackReason } from "../store/reducers/vpnSlice";
 import { ScrollView } from "react-native-gesture-handler";
 
 const NegativeFeedBackScreen = () => {
+  
   const { negativeFeedBack, isNetworkReachable } = useAppSelector(
     ({ vpn }) => vpn
   );
@@ -24,17 +25,18 @@ const NegativeFeedBackScreen = () => {
       <View className=" w-full h-full bg-white">
         {feedbackStatus === "idle" ? (
           <Formik
+            enableReinitialize
             initialValues={{
               problemType: negativeFeedBack.reason,
               message: "",
             }}
             onSubmit={(values, actions) => {
+              
               if (isNetworkReachableRef.current) {
                 firestore()
                   .collection("feedback")
                   .add(values)
                   .then((res) => {
-                    console.log(res);
                     setFeedbackStatus("sent");
                     setTimeout(() => {
                       setFeedbackStatus("idle");
