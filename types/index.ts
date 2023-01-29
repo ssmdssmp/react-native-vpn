@@ -71,7 +71,6 @@ export interface InitState {
 
   negativeFeedBack: {
     reasons: string[];
-    reason: string;
   };
   isBadConnection: boolean;
   freeVpnList: IConnection[];
@@ -81,6 +80,12 @@ export interface InitState {
   isConfigLoading: boolean;
   isNetworkReachable: boolean;
 }
+
+export interface FormValues {
+  problemType: string,
+  message: string,
+}
+
 
 export const initUser: IUser = {
   email: '',
@@ -154,7 +159,6 @@ export const initialState: InitState = {
   isOpenSupportPopup: false,
   negativeFeedBack: {
     reasons: negativeFeedbackReasons,
-    reason: '',
   },
   configFileFolder: '',
   isConfigLoading: false,
