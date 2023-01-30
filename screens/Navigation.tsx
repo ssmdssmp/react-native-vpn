@@ -33,6 +33,9 @@ import PrivacyPolicyWebview from "../components/PrivacyPolicyWebview";
 import UseConditionsWebview from "../components/UseConditionsWebview";
 import RNFS from "react-native-fs";
 import NetInfo from "@react-native-community/netinfo";
+
+import PrivacyLinks from "../components/PrivacyLinks";
+
 const Drawer = createDrawerNavigator();
 
 export const Navigation = () => {
