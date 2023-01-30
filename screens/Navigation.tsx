@@ -220,7 +220,6 @@ export const Navigation = () => {
                 className="ml-3"
                 underlayColor="transparent"
                 onPress={() => {
-                  console.log(123123);
                   navigation.navigate("About");
                 }}
               >
