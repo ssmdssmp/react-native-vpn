@@ -179,6 +179,7 @@ export const Navigation = () => {
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableHighlight
+                className="pl-4"
                 underlayColor="transparent"
                 onPress={() => navigation.navigate("Home")}
               >
