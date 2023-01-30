@@ -13,7 +13,7 @@ const PrivacyPolicyWebview = () => {
           bounces={false}
           startInLoadingState={true}
           renderLoading={() => (
-            <View className="w-full bg-white h-full flex justify-center items-center">
+            <View className="w-full h-full bg-white flex justify-center items-center">
               <ActivityIndicator size={40} color={themeEnum.DARK_TEXT_COLOR} />
             </View>
           )}

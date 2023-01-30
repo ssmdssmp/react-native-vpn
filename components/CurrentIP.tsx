@@ -5,7 +5,9 @@ import { useAppSelector } from "../hooks/redux";
 import { themeEnum } from "../types/themeEnum";
 
 const CurrentIP = () => {
-  const { currentIP, connectionState } = useAppSelector(({ vpn }) => vpn);
+  const { currentIP, connectionState, activeConnection } = useAppSelector(
+    ({ vpn }) => vpn
+  );
   return (
     <View className="w-9/12 mt-3 flex-row items-end gap-x-2 justify-center">
       <Text style={{ color: themeEnum.FOCUSED_TEXT_COLOR }} className="text-xs">
@@ -24,7 +26,11 @@ const CurrentIP = () => {
       </Text>
       <View className="rounded-full mb-1  overflow-hidden h-4 w-4 flex justify-center items-center">
         <CountryFlag
-          isoCode={currentIP.data.countryCode ? currentIP.data.countryCode : ""}
+          isoCode={
+            connectionState.state === 1 || currentIP.loading
+              ? activeConnection.country
+              : currentIP.data.countryCode
+          }
           size={17}
         />
       </View>
