@@ -8,6 +8,7 @@ const CurrentIP = () => {
   const { currentIP, connectionState, activeConnection } = useAppSelector(
     ({ vpn }) => vpn
   );
+
   return (
     <View className="w-9/12 mt-3 flex-row items-end gap-x-2 justify-center">
       <Text style={{ color: themeEnum.FOCUSED_TEXT_COLOR }} className="text-xs">
