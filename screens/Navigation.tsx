@@ -180,6 +180,7 @@ export const Navigation = () => {
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableHighlight
+                className="pl-4"
                 underlayColor="transparent"
                 onPress={() => navigation.navigate("Home")}
               >
@@ -221,7 +222,6 @@ export const Navigation = () => {
                 className="ml-3"
                 underlayColor="transparent"
                 onPress={() => {
-                  console.log(123123);
                   navigation.navigate("About");
                 }}
               >
