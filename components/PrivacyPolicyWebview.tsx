@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { WebView } from "react-native-webview";
 import React from "react";
 import { useAppSelector } from "../hooks/redux";
@@ -10,6 +10,13 @@ const PrivacyPolicyWebview = () => {
     <View className="h-full w-full ">
       {isNetworkReachable ? (
         <WebView
+          bounces={false}
+          startInLoadingState={true}
+          renderLoading={() => (
+            <View className="w-full bg-white h-full flex justify-center items-center">
+              <ActivityIndicator size={40} color={themeEnum.DARK_TEXT_COLOR} />
+            </View>
+          )}
           source={{
             uri: "https://doc-hosting.flycricket.io/vpn3001-privacy-policy/201833af-322d-4fc2-91bb-2f2a4da8e6f4/privacy",
           }}

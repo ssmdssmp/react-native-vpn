@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Modal } from "react-native";
+import { View, Text, SafeAreaView, ActivityIndicator } from "react-native";
 import { WebView } from "react-native-webview";
 import React, { useRef } from "react";
 import { useAppSelector } from "../hooks/redux";
@@ -15,6 +15,13 @@ const SupportWebview = () => {
     <SafeAreaView className="w-full h-full">
       {isNetworkReachable ? (
         <WebView
+          bounces={false}
+          startInLoadingState={true}
+          renderLoading={() => (
+            <View className="w-full h-full bg-white flex justify-center items-center">
+              <ActivityIndicator size={40} color={themeEnum.DARK_TEXT_COLOR} />
+            </View>
+          )}
           source={{
             uri: "https://vpn-2023-c2591.web.app/",
           }}
