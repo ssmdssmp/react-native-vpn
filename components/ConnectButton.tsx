@@ -151,10 +151,9 @@ export const ConnectButton = () => {
       dispatch(
         setActiveConnection({ ...activeConnectionRef.current, connectionTime })
       );
-      setTimeout(() => {
-        dispatch(getCurrentIP());
-        dispatch(setCurrentIPRejected(false));
-      }, 1000);
+
+      dispatch(getCurrentIP());
+      dispatch(setCurrentIPRejected(false));
     }
     if (connectionState.state === 4) {
       setErrorAndReconnect();
