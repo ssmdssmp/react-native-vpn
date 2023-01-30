@@ -20,9 +20,6 @@ const vpnSlice = createSlice({
     closeSupportPopup: state => {
       state.isOpenSupportPopup = false;
     },
-    setNegativeFeedbackReason: (state, {payload}) => {
-      state.negativeFeedBack.reason = payload;
-    },
     toggleKillswitch: state => {
       state.user.settings.killswitch = !state.user.settings.killswitch;
     },
@@ -42,6 +39,9 @@ const vpnSlice = createSlice({
       state.connectionState = payload;
     },
     setCurrentIP: (state, {payload}) => {
+      state.currentIP = payload;
+    },
+    setLoadingCountryCode: (state, {payload}) => {
       state.currentIP = payload;
     },
     setIsConfigLoading: (state, {payload}) => {
@@ -91,6 +91,7 @@ const vpnSlice = createSlice({
       })
       .addCase(getCurrentIP.pending, state => {
         state.currentIP.loading = true;
+      //  state.currentIP.data.countryCode=
       })
       .addCase(getCurrentIP.rejected, state => {
         state.currentIP.data.query = 'Ошибка получения IP';
@@ -114,13 +115,13 @@ export const {
   setVpnConnectionState,
   openSupportPopup,
   closeSupportPopup,
-  setNegativeFeedbackReason,
   toggleKillswitch,
   toggleAutoconnection,
   setConnectionType,
   setConnectionStartTime,
   setIsFirstConnection,
   setProtocol,
+  setLoadingCountryCode,
 } = vpnSlice.actions;
 
 export default vpnSlice.reducer;

@@ -36,6 +36,7 @@ export const currentIPDataError = {
   zip: '',
 };
 export interface ICurrentIP {
+  loadingCountryCode:string;
   data: currentIPDataType;
   loading: boolean;
   rejected: boolean;
@@ -108,6 +109,7 @@ export const initUser: IUser = {
   subscription: 'free',
 };
 export const initCurrentIP: ICurrentIP = {
+  loadingCountryCode:'',
   data: {
     as: '',
     city: '',

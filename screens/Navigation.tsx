@@ -9,7 +9,6 @@ import {
   setFreeVpnList,
   setIsNetworkReachable,
   setLocalUser,
-  setNegativeFeedbackReason,
 } from "../store/reducers/vpnSlice";
 
 import SupportWebview from "../components/SupportWebview";
