@@ -70,6 +70,11 @@ export const ConnectButton = () => {
         connectionTime: 0,
       })
       .then(() => {
+        console.log({
+          ...activeConnectionRef.current,
+          status: "error",
+          connectionTime: 0,
+        });
         const newFreeVpnList = [
           ...freeVpnList.filter(
             (el) => el.id !== activeConnectionRef.current.id

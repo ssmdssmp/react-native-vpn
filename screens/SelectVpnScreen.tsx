@@ -89,6 +89,7 @@ const SelectVpnScreen = () => {
                     return 1;
                   }
                 })
+                .filter((el) => el.title.length !== 0)
                 .filter((el) =>
                   el.title.toLowerCase().includes(searchValue.toLowerCase())
                 )
