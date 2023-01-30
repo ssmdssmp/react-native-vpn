@@ -10,7 +10,6 @@ import {
   setIsNetworkReachable,
   setLocalUser,
 } from "../store/reducers/vpnSlice";
-
 import SupportWebview from "../components/SupportWebview";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { themeEnum } from "../types/themeEnum";
@@ -33,7 +32,9 @@ import PrivacyPolicyWebview from "../components/PrivacyPolicyWebview";
 import UseConditionsWebview from "../components/UseConditionsWebview";
 import RNFS from "react-native-fs";
 import NetInfo from "@react-native-community/netinfo";
+
 import PrivacyLinks from "../components/PrivacyLinks";
+
 const Drawer = createDrawerNavigator();
 
 export const Navigation = () => {
