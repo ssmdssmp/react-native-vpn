@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { WebView } from "react-native-webview";
 import React from "react";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -14,6 +14,13 @@ const UseConditionsWebview = () => {
     <View className="w-full h-full">
       {isNetworkReachable && navigationState.index === 7 ? (
         <WebView
+          bounces={false}
+          startInLoadingState={true}
+          renderLoading={() => (
+            <View className="w-full h-full bg-white flex justify-center items-center">
+              <ActivityIndicator size={40} color={themeEnum.DARK_TEXT_COLOR} />
+            </View>
+          )}
           source={{
             uri: "https://doc-hosting.flycricket.io/vpn3001-terms-of-use/b02f844e-a7ae-4628-ae00-55c9304484a4/terms",
           }}
