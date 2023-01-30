@@ -1,17 +1,22 @@
-import {View, Text} from 'react-native';
-import {WebView} from 'react-native-webview';
-import React from 'react';
-import {useAppSelector} from '../hooks/redux';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {themeEnum} from '../types/themeEnum';
+import { View, Text, SafeAreaView, Modal } from "react-native";
+import { WebView } from "react-native-webview";
+import React, { useRef } from "react";
+import { useAppSelector } from "../hooks/redux";
+import { useNavigation } from "@react-navigation/native";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import { themeEnum } from "../types/themeEnum";
 const SupportWebview = () => {
-  const {isNetworkReachable} = useAppSelector(({vpn}) => vpn);
+  const navigation = useNavigation();
+  const navigationState = navigation.getState();
+  const { isNetworkReachable } = useAppSelector(({ vpn }) => vpn);
+  const webViewRef = useRef();
+
   return (
-    <View className="w-full h-full">
+    <SafeAreaView className="w-full h-full">
       {isNetworkReachable ? (
         <WebView
           source={{
-            uri: 'https://vpn-2023-c2591.web.app/',
+            uri: "https://vpn-2023-c2591.web.app/",
           }}
         />
       ) : (
@@ -21,12 +26,15 @@ const SupportWebview = () => {
             color={themeEnum.DARK_TEXT_COLOR}
             size={45}
           />
-          <Text className="text-xl" style={{color: themeEnum.DARK_TEXT_COLOR}}>
+          <Text
+            className="text-xl"
+            style={{ color: themeEnum.DARK_TEXT_COLOR }}
+          >
             Сеть недоступна
           </Text>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

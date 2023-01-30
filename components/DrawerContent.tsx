@@ -1,32 +1,36 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View} from 'react-native';
-import React from 'react';
-import {DrawerContentComponentProps} from '@react-navigation/drawer';
-import {themeEnum} from '../types/themeEnum';
-import {DrawerItem} from '@react-navigation/drawer';
-import {useAppDispatch} from '../hooks/redux';
-import {NavigationIcon} from '../utils/NavigationIcon';
-import {closeSupportPopup, openSupportPopup} from '../store/reducers/vpnSlice';
-import openRateAlert from './RateAlert';
-import onShare from './Share';
+import { View } from "react-native";
+import React from "react";
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
+import { themeEnum } from "../types/themeEnum";
+import { DrawerItem } from "@react-navigation/drawer";
+import { useAppDispatch } from "../hooks/redux";
+import { NavigationIcon } from "../utils/NavigationIcon";
+import {
+  closeSupportPopup,
+  openSupportPopup,
+} from "../store/reducers/vpnSlice";
+import openRateAlert from "./RateAlert";
+import onShare from "./Share";
 const DrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useAppDispatch();
   const drawerItemStyle = {
-    backgroundColor: 'white',
-    width: '100%',
+    backgroundColor: "white",
+    width: "100%",
     borderRadius: 0,
     height: 55,
 
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
 
     marginLeft: 0,
     paddingTop: 0,
   };
   return (
     <View
-      style={{backgroundColor: themeEnum.BODY_BACKGROUD_COLOR}}
-      className="h-full bg-black flex-col justify-between py-3">
+      style={{ backgroundColor: themeEnum.BODY_BACKGROUD_COLOR }}
+      className="h-full bg-black flex-col justify-between py-3"
+    >
       <View className="flex-col justify-start gap-0">
         <DrawerItem
           label="Главная"
@@ -37,15 +41,15 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                   ...drawerItemStyle,
                   backgroundColor: themeEnum.FOCUSED_COLOR,
                 }
-              : {...drawerItemStyle}
+              : { ...drawerItemStyle }
           }
           labelStyle={{
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: "700",
           }}
           icon={() => <NavigationIcon name="home-outline" />}
           onPress={() => {
-            props.navigation.navigate('Home');
+            props.navigation.navigate("Home");
             dispatch(closeSupportPopup());
           }}
         />
@@ -53,7 +57,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           label="Настройки"
           labelStyle={{
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: "700",
           }} //@ts-ignore
           style={
             props.state.index === 1
@@ -62,11 +66,11 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                   backgroundColor: themeEnum.FOCUSED_COLOR,
                   paddingTop: 0,
                 }
-              : {...drawerItemStyle}
+              : { ...drawerItemStyle }
           }
           icon={() => <NavigationIcon name="settings-outline" />}
           onPress={() => {
-            props.navigation.navigate('Settings');
+            props.navigation.navigate("Settings");
             dispatch(closeSupportPopup());
           }}
         />
@@ -74,20 +78,27 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           label="Помощь"
           labelStyle={{
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: "700",
           }} //@ts-ignore
-          style={drawerItemStyle}
+          style={
+            props.state.index === 2
+              ? {
+                  ...drawerItemStyle,
+                  backgroundColor: themeEnum.FOCUSED_COLOR,
+                }
+              : { ...drawerItemStyle }
+          }
           icon={() => <NavigationIcon name="chatbox-ellipses-outline" />}
           onPress={() => {
-            props.navigation.navigate('Support');
-            dispatch(openSupportPopup());
+            console.log(props.state.key);
+            props.navigation.navigate("Support");
           }}
         />
         <DrawerItem
           label="Поделиться"
           labelStyle={{
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: "700",
           }} //@ts-ignore
           style={drawerItemStyle}
           icon={() => <NavigationIcon name="gift-outline" />}
@@ -100,7 +111,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           label="Оценить приложение"
           labelStyle={{
             fontSize: 17,
-            fontWeight: '700',
+            fontWeight: "700",
           }} //@ts-ignore
           style={drawerItemStyle}
           icon={() => <NavigationIcon name="thumbs-up-outline" />}
@@ -113,19 +124,19 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           label="О приложении"
           labelStyle={{
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: "700",
           }} //@ts-ignore
           style={
-            props.state.index === 2
+            props.state.index === 3
               ? {
                   ...drawerItemStyle,
                   backgroundColor: themeEnum.FOCUSED_COLOR,
                 }
-              : {...drawerItemStyle}
+              : { ...drawerItemStyle }
           }
           icon={() => <NavigationIcon name="information-circle-outline" />}
           onPress={() => {
-            props.navigation.navigate('About');
+            props.navigation.navigate("About");
             dispatch(closeSupportPopup());
           }}
         />
