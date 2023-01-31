@@ -44,149 +44,165 @@ const NegativeFeedBackScreen = () => {
 
   return (
     <ScrollView className="h-screen">
-      <View className=" w-full h-full bg-white">
-        {feedbackStatus === "idle" ? (
-          <Formik
-            enableReinitialize
-            innerRef={formikRef}
-            initialValues={{
-              problemType: "",
-              message: "",
-            }}
-            onSubmit={(values) => {
-              if (isNetworkReachableRef.current) {
-                firestore()
-                  .collection("feedback")
-                  .add(values)
-                  .then((res) => {
-                    setFeedbackStatus("sent");
-                    setTimeout(() => {
-                      setFeedbackStatus("idle");
-                    }, 5000);
-                    resetFormValues();
-                  })
-                  .catch(() => {
-                    setFeedbackStatus("error");
-                    setTimeout(() => {
-                      setFeedbackStatus("idle");
-                    }, 5000);
-                  });
-              } else {
-                setFeedbackStatus("error");
-                setTimeout(() => {
-                  setFeedbackStatus("idle");
-                }, 5000);
+      {isNetworkReachable ? (
+        <View className=" w-full h-full bg-white">
+          {feedbackStatus === "idle" ? (
+            <Formik
+              enableReinitialize
+              innerRef={formikRef}
+              initialValues={{
+                problemType: "",
+                message: "",
+              }}
+              onSubmit={(values) => {
+                if (isNetworkReachableRef.current) {
+                  firestore()
+                    .collection("feedback")
+                    .add(values)
+                    .then((res) => {
+                      setFeedbackStatus("sent");
+                      setTimeout(() => {
+                        setFeedbackStatus("idle");
+                      }, 5000);
+                      resetFormValues();
+                    })
+                    .catch(() => {
+                      setFeedbackStatus("error");
+                      setTimeout(() => {
+                        setFeedbackStatus("idle");
+                      }, 5000);
+                    });
+                } else {
+                  setFeedbackStatus("error");
+                  setTimeout(() => {
+                    setFeedbackStatus("idle");
+                  }, 5000);
+                }
+                resetFormValues();
+              }}
+              validationSchema={() =>
+                yup.object({
+                  problemType: yup.string(),
+                  message: yup.string(),
+                })
               }
-              resetFormValues();
-            }}
-            validationSchema={() =>
-              yup.object({
-                problemType: yup.string(),
-                message: yup.string(),
-              })
-            }
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-            }) => (
-              <View className=" flex-col mt-5  items-center w-full">
-                <Text
-                  style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}
-                  className="text-center font-semibold"
-                >
-                  Пожалуйста, опишите, с какой проблемой вы столкнулись. Мы
-                  обязательно исправим её в ближайших релизах
-                </Text>
-                <View className="w-full pt-5   px-4 flex-col gap-y-2">
-                  {negativeFeedBack.reasons.map((item) => (
-                    <TouchableHighlight
-                      className="rounded-md"
-                      key={nanoid()}
-                      onPress={() => {
-                        values.problemType = item;
-                        setReason(item);
-                      }}
-                    >
-                      <View
+            >
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                touched,
+              }) => (
+                <View className=" flex-col mt-5  items-center w-full">
+                  <Text
+                    style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}
+                    className="text-center font-semibold"
+                  >
+                    Пожалуйста, опишите, с какой проблемой вы столкнулись. Мы
+                    обязательно исправим её в ближайших релизах
+                  </Text>
+                  <View className="w-full pt-5   px-4 flex-col gap-y-2">
+                    {negativeFeedBack.reasons.map((item) => (
+                      <TouchableHighlight
+                        className="rounded-md"
+                        key={nanoid()}
+                        onPress={() => {
+                          values.problemType = item;
+                          setReason(item);
+                        }}
+                      >
+                        <View
+                          style={{
+                            backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,
+                          }}
+                          className="h-12 rounded-md  flex-row items-center px-2 "
+                        >
+                          <RadioButton
+                            selected={reason === item ? true : false}
+                          />
+
+                          <Text
+                            className="ml-2"
+                            style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}
+                          >
+                            {item}
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
+                    ))}
+                    {errors.problemType && touched.problemType ? (
+                      <Text className="text-red-500">{errors.problemType}</Text>
+                    ) : null}
+                    <View className="flex-col gap-y-2">
+                      <Text style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}>
+                        Детали, пожелания или проблемы:
+                      </Text>
+                      <TextInput
+                        onChangeText={(text) => setMessage(text)}
+                        value={message}
+                        onBlur={handleBlur("name")}
                         style={{
                           backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,
+                          color: themeEnum.DARK_TEXT_COLOR,
                         }}
-                        className="h-12 rounded-md  flex-row items-center px-2 "
-                      >
-                        <RadioButton
-                          selected={reason === item ? true : false}
-                        />
-
-                        <Text
-                          className="ml-2"
-                          style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}
-                        >
-                          {item}
-                        </Text>
-                      </View>
-                    </TouchableHighlight>
-                  ))}
-                  {errors.problemType && touched.problemType ? (
-                    <Text className="text-red-500">{errors.problemType}</Text>
-                  ) : null}
-                  <View className="flex-col gap-y-2">
-                    <Text style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}>
-                      Детали, пожелания или проблемы:
-                    </Text>
-                    <TextInput
-                      onChangeText={(text) => setMessage(text)}
-                      value={message}
-                      onBlur={handleBlur("name")}
-                      style={{
-                        backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,
-                        color: themeEnum.DARK_TEXT_COLOR,
-                      }}
-                      multiline={true}
-                      textAlignVertical="top"
-                      className="h-16 p-3 rounded-md font-bold"
-                    />
+                        multiline={true}
+                        textAlignVertical="top"
+                        className="h-16 p-3 rounded-md font-bold"
+                      />
+                    </View>
                   </View>
+                  <TouchableHighlight
+                    underlayColor="none"
+                    onPress={handleSubmit}
+                    style={{ backgroundColor: themeEnum.SUCCESS_COLOR }}
+                    className="w-11/12 px-4 rounded-md h-12 flex mt-5 justify-center items-center"
+                  >
+                    <Text className="color-white text-lg ">Отправить</Text>
+                  </TouchableHighlight>
                 </View>
-                <TouchableHighlight
-                  underlayColor="none"
-                  onPress={handleSubmit}
-                  style={{ backgroundColor: themeEnum.SUCCESS_COLOR }}
-                  className="w-11/12 px-4 rounded-md h-12 flex mt-5 justify-center items-center"
-                >
-                  <Text className="color-white text-lg ">Отправить</Text>
-                </TouchableHighlight>
-              </View>
-            )}
-          </Formik>
-        ) : feedbackStatus === "error" ? (
-          <View className="w-full h-screen gap-4 pb-16 flex justify-center items-center">
-            <MaterialIcon name="error-outline" color="red" size={40} />
-            <Text className="text-center" style={{ color: "red" }}>
-              Ошибка отправки формы. Попробуйте еще раз через несколько секунд
-            </Text>
-          </View>
-        ) : (
-          <View className="w-full h-screen gap-4 pb-16 flex justify-center items-center">
-            <MaterialIcon
-              name="done-outline"
-              color={themeEnum.SUCCESS_COLOR}
-              size={40}
-            />
-            <Text
-              className="text-center"
-              style={{ color: themeEnum.SUCCESS_COLOR }}
-            >
-              Спасибо! Мы рассмотрим вашу проблему и попробуем исправить её в
-              ближайших релизах
-            </Text>
-          </View>
-        )}
-      </View>
+              )}
+            </Formik>
+          ) : feedbackStatus === "error" ? (
+            <View className="w-full h-screen gap-4 pb-16 flex justify-center items-center">
+              <MaterialIcon name="error-outline" color="red" size={40} />
+              <Text className="text-center" style={{ color: "red" }}>
+                Ошибка отправки формы. Попробуйте еще раз через несколько секунд
+              </Text>
+            </View>
+          ) : (
+            <View className="w-full h-screen gap-4 pb-16 flex justify-center items-center">
+              <MaterialIcon
+                name="done-outline"
+                color={themeEnum.SUCCESS_COLOR}
+                size={40}
+              />
+              <Text
+                className="text-center"
+                style={{ color: themeEnum.SUCCESS_COLOR }}
+              >
+                Спасибо! Мы рассмотрим вашу проблему и попробуем исправить её в
+                ближайших релизах
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <View className="w-full pt-52 h-full gap-y-2 flex flex-col items-center justify-center">
+          <MaterialIcon
+            name="error-outline"
+            color={themeEnum.DARK_TEXT_COLOR}
+            size={45}
+          />
+          <Text
+            className="text-xl"
+            style={{ color: themeEnum.DARK_TEXT_COLOR }}
+          >
+            Сеть недоступна
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
