@@ -10,17 +10,18 @@ import { setIsActiveSearch } from "../store/reducers/vpnSlice";
 const SelectVpn = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const { activeConnection, isNetworkReachable } = useAppSelector(
-    ({ vpn }) => vpn
-  );
+  const { activeConnection, isNetworkReachable, isConfigLoading } =
+    useAppSelector(({ vpn }) => vpn);
   return (
     <TouchableHighlight
       style={{ backgroundColor: themeEnum.FOCUSED_COLOR }}
       className="w-9/12 bg-pink-300 h-12 flex justify-center items-center rounded-md"
       onPress={() => {
-        //@ts-ignore
-        navigation.navigate("SelectVpn");
-        dispatch(setIsActiveSearch(false));
+        if (!isConfigLoading) {
+          //@ts-ignore
+          navigation.navigate("SelectVpn");
+          dispatch(setIsActiveSearch(false));
+        }
       }}
       underlayColor="transparent"
     >

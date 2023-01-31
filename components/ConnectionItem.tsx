@@ -3,7 +3,7 @@ import { View, Text, TouchableHighlight } from "react-native";
 import RNFS from "react-native-fs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import React from "react";
+import React, { useRef } from "react";
 import {
   setActiveConnection,
   setCurrentIPRejected,
@@ -22,6 +22,8 @@ const ConnectionItem = ({ item }: { item: IConnection }) => {
   const { configFileFolder, user, isConfigLoading } = useAppSelector(
     ({ vpn }) => vpn
   );
+  const isConfigLoadingRef = useRef(isConfigLoading);
+  isConfigLoadingRef.current = isConfigLoading;
 
   return (
     <TouchableHighlight
@@ -30,13 +32,14 @@ const ConnectionItem = ({ item }: { item: IConnection }) => {
       className="pl-4"
       onPress={() => {
         dispatch(setCurrentIPRejected(false));
-        if (isConfigLoading) {
+        if (isConfigLoadingRef.current) {
           return;
         } else {
           /* dispatch(setLoadingCountryCode(item.country))*/
 
           dispatch(setIsConfigLoading(true));
           dispatch(setActiveConnection(item));
+          //@ts-ignore
           navigation.navigate("Home");
           RNFS.downloadFile({
             fromUrl: item.url,
@@ -49,7 +52,6 @@ const ConnectionItem = ({ item }: { item: IConnection }) => {
                   lastConnection: item,
                 });
                 AsyncStorage.setItem("User", jsonValue);
-                //@ts-ignore
 
                 dispatch(setIsConfigLoading(false));
               } else {
