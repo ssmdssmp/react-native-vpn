@@ -36,20 +36,21 @@ const ConnectionItem = ({ item }: { item: IConnection }) => {
           /* dispatch(setLoadingCountryCode(item.country))*/
 
           dispatch(setIsConfigLoading(true));
+          dispatch(setActiveConnection(item));
+          navigation.navigate("Home");
           RNFS.downloadFile({
             fromUrl: item.url,
             toFile: `${configFileFolder}/${item.objectName}`,
           })
             .promise.then((res) => {
               if (res.statusCode === 200) {
-                dispatch(setActiveConnection(item));
                 const jsonValue = JSON.stringify({
                   ...user,
                   lastConnection: item,
                 });
                 AsyncStorage.setItem("User", jsonValue);
                 //@ts-ignore
-                navigation.navigate("Home");
+
                 dispatch(setIsConfigLoading(false));
               } else {
                 console.log("error with download");

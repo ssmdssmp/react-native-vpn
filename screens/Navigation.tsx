@@ -78,6 +78,7 @@ export const Navigation = () => {
           })
           .then(() => {
             const newArr = arr;
+
             dispatch(setFreeVpnList(newArr));
             dispatch(setActiveConnection(newArr[0]));
             downloadActiveVpnConfig(newArr[0], configFileForlderRef.current);

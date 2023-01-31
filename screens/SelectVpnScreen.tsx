@@ -11,7 +11,6 @@ import { themeEnum } from "../types/themeEnum";
 import { nanoid } from "@reduxjs/toolkit";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import EvilIcon from "react-native-vector-icons/EvilIcons";
-import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import ConnectionItem from "../components/ConnectionItem";
 const SelectVpnScreen = () => {

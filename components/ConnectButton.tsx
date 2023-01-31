@@ -37,13 +37,17 @@ export const ConnectButton = () => {
     freeVpnList,
     connectionStartTime,
     isNetworkReachable,
+    isConfigLoading,
   } = useAppSelector(({ vpn }) => vpn);
   const connectionStateRef = useRef(connectionState);
   const isNetworkReachableRef = useRef(isNetworkReachable);
+  const isConfigLoadingRef = useRef(isConfigLoading);
+
   const userRef = useRef(user);
   const currentIPRef = useRef(currentIP);
   const freeVpnListRef = useRef(freeVpnList);
   const activeConnectionRef = useRef(activeConnection);
+  isConfigLoadingRef.current = isConfigLoading;
   freeVpnListRef.current = freeVpnList;
   activeConnectionRef.current = activeConnection;
   connectionStateRef.current = connectionState;
@@ -205,6 +209,7 @@ export const ConnectButton = () => {
       stopOvpn();
     }
   }, [isNetworkReachable]);
+
   async function startOvpn() {
     await NetInfo.fetch()
       .then(async () => {
@@ -286,18 +291,20 @@ export const ConnectButton = () => {
         activeConnection.title !== "") ||
       connectionState.state === 2
     ) {
-      RNFS.downloadFile({
-        fromUrl: `${activeConnection.url}`,
-        toFile: `${configFileFolder}/${activeConnection.objectName}`,
-      })
-        .promise.then((res) => {
-          if (res.statusCode === 200) {
-            startOvpn();
-          } else {
-            return;
-          }
+      stopOvpn().then(() =>
+        RNFS.downloadFile({
+          fromUrl: `${activeConnection.url}`,
+          toFile: `${configFileFolder}/${activeConnection.objectName}`,
         })
-        .catch((err) => console.log(err));
+          .promise.then((res) => {
+            if (res.statusCode === 200) {
+              startOvpn();
+            } else {
+              return;
+            }
+          })
+          .catch((err) => console.log(err))
+      );
     }
   }, [user.settings.autoconnection, activeConnection.title]);
   async function stopOvpn() {
@@ -327,7 +334,9 @@ export const ConnectButton = () => {
           if (connectionState.state === 2 || connectionState.state === 1) {
             stopOvpn().then(() => dispatch(getCurrentIP()));
           } else {
-            startOvpn();
+            if (!isConfigLoadingRef.current) {
+              startOvpn();
+            }
           }
         }
       }}

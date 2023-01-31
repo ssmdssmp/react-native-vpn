@@ -36,7 +36,11 @@ const SelectVpn = () => {
             style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
             className="text-[16px]"
           >
-            {isNetworkReachable ? activeConnection.title : "Ошибка сети"}
+            {isNetworkReachable
+              ? activeConnection.title
+                ? activeConnection.title
+                : ""
+              : "Ошибка сети"}
           </Text>
           <Text
             style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
