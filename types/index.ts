@@ -20,23 +20,23 @@ export type currentIPDataType = {
   zip: string;
 };
 export const currentIPDataError = {
-  as: '',
-  city: '',
-  country: '',
-  countryCode: '',
-  isp: '',
+  as: "",
+  city: "",
+  country: "",
+  countryCode: "",
+  isp: "",
   lat: 0,
   lon: 0,
-  org: '',
-  query: 'Ошибка получения IP',
-  region: '',
-  regionName: '',
-  status: '',
-  timezone: '',
-  zip: '',
+  org: "",
+  query: "Ошибка получения IP",
+  region: "",
+  regionName: "",
+  status: "",
+  timezone: "",
+  zip: "",
 };
 export interface ICurrentIP {
-  loadingCountryCode:string;
+  loadingCountryCode: string;
   data: currentIPDataType;
   loading: boolean;
   rejected: boolean;
@@ -47,12 +47,12 @@ export interface IUser {
   settings: {
     killswitch: boolean;
     autoconnection: boolean;
-    connectionType: 'last' | 'recommended';
-    protocol: 'IKEv2' | 'OpenVPN TCP' | 'OpenVPN UDP';
+    connectionType: "last" | "recommended";
+    protocol: "IKEv2" | "OpenVPN TCP" | "OpenVPN UDP";
   };
   isFirstConnection: boolean;
   lastConnection: IConnection;
-  subscription: 'free' | 'premium';
+  subscription: "free" | "premium";
 }
 export interface IConnection {
   title: string;
@@ -80,78 +80,78 @@ export interface InitState {
   connectionStartTime: number;
   isConfigLoading: boolean;
   isNetworkReachable: boolean;
+  isActiveSearch: false;
 }
 
 export interface FormValues {
-  problemType: string,
-  message: string,
+  problemType: string;
+  message: string;
 }
 
-
 export const initUser: IUser = {
-  email: '',
+  email: "",
   settings: {
     killswitch: false,
     autoconnection: false,
-    connectionType: 'recommended',
-    protocol: 'OpenVPN TCP',
+    connectionType: "recommended",
+    protocol: "OpenVPN TCP",
   },
   isFirstConnection: true,
   lastConnection: {
-    id: '',
-    title: '',
-    status: 'active',
-    url: '',
-    country: '',
-    objectName: '',
+    id: "",
+    title: "",
+    status: "active",
+    url: "",
+    country: "",
+    objectName: "",
     connectionTime: 0,
   },
-  subscription: 'free',
+  subscription: "free",
 };
 export const initCurrentIP: ICurrentIP = {
-  loadingCountryCode:'',
+  loadingCountryCode: "",
   data: {
-    as: '',
-    city: '',
-    country: '',
-    countryCode: '',
-    isp: '',
+    as: "",
+    city: "",
+    country: "",
+    countryCode: "",
+    isp: "",
     lat: 0,
     lon: 0,
-    org: '',
-    query: '',
-    region: '',
-    regionName: '',
-    status: '',
-    timezone: '',
-    zip: '',
+    org: "",
+    query: "",
+    region: "",
+    regionName: "",
+    status: "",
+    timezone: "",
+    zip: "",
   },
   loading: false,
   rejected: false,
 };
 export const negativeFeedbackReasons = [
-  'Проблема с подключением',
-  'Неудобный интерфейс приложения',
-  'Вопрос о регистрации или оплате',
-  'Низкая скорость',
-  'Нет нужной функции или сервера',
-  'Предложения и идеи',
+  "Проблема с подключением",
+  "Неудобный интерфейс приложения",
+  "Вопрос о регистрации или оплате",
+  "Низкая скорость",
+  "Нет нужной функции или сервера",
+  "Предложения и идеи",
 ];
 export const initialState: InitState = {
   currentIP: initCurrentIP,
   user: initUser,
   activeConnection: {
-    id: '',
-    title: '',
-    objectName: '',
-    country: '',
-    url: '',
-    status: 'active',
+    id: "",
+    title: "",
+    objectName: "",
+    country: "",
+    url: "",
+    status: "active",
     connectionTime: 0,
   },
   connectionState: {
-    level: '',
-    message: '',
+    level: "",
+    message: "",
     state: 3,
   },
   isBadConnection: false,
@@ -162,7 +162,8 @@ export const initialState: InitState = {
   negativeFeedBack: {
     reasons: negativeFeedbackReasons,
   },
-  configFileFolder: '',
+  configFileFolder: "",
   isConfigLoading: false,
   isNetworkReachable: false,
+  isActiveSearch: false,
 };

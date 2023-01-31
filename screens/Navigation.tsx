@@ -8,6 +8,7 @@ import {
   setActiveConnection,
   setConfigFileFolder,
   setFreeVpnList,
+  setIsActiveSearch,
   setIsNetworkReachable,
   setLocalUser,
 } from "../store/reducers/vpnSlice";
@@ -56,14 +57,6 @@ export const Navigation = () => {
   };
 
   useEffect(() => {
-    storage()
-      .ref("ovpn")
-      .listAll()
-      .then((res) =>
-        res.items.map((item) =>
-          item.getDownloadURL().then((res) => console.log(res))
-        )
-      );
     NetInfo.fetch()
       .then((res) => dispatch(setIsNetworkReachable(res.isConnected)))
       .catch((err) => console.log(err));
@@ -178,7 +171,11 @@ export const Navigation = () => {
             },
           }}
         />
-        <Drawer.Screen name="Support" options={{ unmountOnBlur: true }} component={SupportWebview} />
+        <Drawer.Screen
+          name="Support"
+          options={{ unmountOnBlur: true }}
+          component={SupportWebview}
+        />
         <Drawer.Screen name="About" component={AboutScreen} />
         <Drawer.Screen
           name="SelectVpn"
@@ -188,7 +185,10 @@ export const Navigation = () => {
               <TouchableHighlight
                 className="pl-4"
                 underlayColor="transparent"
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => {
+                  navigation.navigate("Home");
+                  dispatch(setIsActiveSearch(false));
+                }}
               >
                 <Ionicon
                   name="chevron-back"

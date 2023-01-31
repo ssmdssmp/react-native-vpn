@@ -6,24 +6,29 @@ import {
   TextInput,
   TouchableHighlight,
 } from "react-native";
-
+import { setIsActiveSearch } from "../store/reducers/vpnSlice";
 import { themeEnum } from "../types/themeEnum";
 import { nanoid } from "@reduxjs/toolkit";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import EvilIcon from "react-native-vector-icons/EvilIcons";
-
-import { useAppSelector } from "../hooks/redux";
+import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import ConnectionItem from "../components/ConnectionItem";
 const SelectVpnScreen = () => {
-  const { freeVpnList, isNetworkReachable } = useAppSelector(({ vpn }) => vpn);
-  const [isSearchActive, setIsActiveSearch] = useState(false);
+  const dispatch = useAppDispatch();
+  const { freeVpnList, isNetworkReachable, isActiveSearch } = useAppSelector(
+    ({ vpn }) => vpn
+  );
   const [searchValue, setSearchValue] = useState("");
+  useEffect(() => {
+    !isActiveSearch ? setSearchValue("") : null;
+  }, [isActiveSearch]);
 
   return (
     <View className="w-full h-full justify-center flex-col items-center bg-white">
       <ScrollView className="w-full flex-col gap-y-4">
         <View className="mt-2 pl-6 w-full flex-row gap-2 items-center justify-between">
-          {isSearchActive ? (
+          {isActiveSearch ? (
             <TextInput
               onChangeText={(e) => setSearchValue(e)}
               value={searchValue}
@@ -45,13 +50,13 @@ const SelectVpnScreen = () => {
             <TouchableHighlight
               underlayColor="transparent"
               onPress={() => {
-                if (isSearchActive) {
+                if (isActiveSearch) {
                   setSearchValue("");
                 }
-                setIsActiveSearch(!isSearchActive);
+                dispatch(setIsActiveSearch(!isActiveSearch));
               }}
             >
-              {isSearchActive ? (
+              {isActiveSearch ? (
                 <MaterialIcon
                   name="cancel"
                   color={themeEnum.FOCUSED_TEXT_COLOR}
