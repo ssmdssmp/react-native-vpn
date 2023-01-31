@@ -320,7 +320,7 @@ export const ConnectButton = () => {
   return (
     <TouchableHighlight
       onPress={() => {
-        if (user.isFirstConnection) {
+        if (user.isFirstConnection && isNetworkReachable) {
           //@ts-ignore
           refAllowVPNconfig.current.open();
         } else {
