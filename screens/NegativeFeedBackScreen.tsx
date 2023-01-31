@@ -25,7 +25,7 @@ const NegativeFeedBackScreen = () => {
         {feedbackStatus === "idle" ? (
           <Formik
             initialValues={{
-              problemType: negativeFeedBack.reason,
+              problemType: "",
               message: "",
             }}
             onSubmit={(values, actions) => {
@@ -85,6 +85,7 @@ const NegativeFeedBackScreen = () => {
                       key={nanoid()}
                       onPress={() => {
                         dispatch(setNegativeFeedbackReason(item));
+                        values.problemType = item;
                       }}
                     >
                       <View

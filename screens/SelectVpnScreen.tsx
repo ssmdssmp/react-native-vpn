@@ -83,7 +83,7 @@ const SelectVpnScreen = () => {
                 )
                 .sort((f, s) => f.connectionTime - s.connectionTime)
                 .sort((a) => {
-                  if (a.status === "active") {
+                  if (a.status === "active" && a.connectionTime !== 0) {
                     return -1;
                   } else {
                     return 1;
