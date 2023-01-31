@@ -16,7 +16,7 @@ const SelectVpn = () => {
   return (
     <TouchableHighlight
       style={{ backgroundColor: themeEnum.FOCUSED_COLOR }}
-      className="w-9/12 bg-pink-300 h-12 flex justify-center rounded-md"
+      className="w-9/12 bg-pink-300 h-12 flex justify-center items-center rounded-md"
       onPress={() => {
         //@ts-ignore
         navigation.navigate("SelectVpn");
@@ -24,31 +24,29 @@ const SelectVpn = () => {
       }}
       underlayColor="transparent"
     >
-      <View className="flex-row px-5  justify-between items-center h-fit">
-        <View className="flex-row w-fit items-center gap-5">
-          <View className="rounded-full  overflow-hidden h-4 w-4 flex justify-center items-center">
-            <CountryFlag
-              isoCode={isNetworkReachable ? activeConnection.country : "eu"}
-              size={17}
-            />
-          </View>
-          <View className="flex-row gap-x-2-2 items-center h-full">
-            <Text
-              style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
-              className="text-[16px]"
-            >
-              {isNetworkReachable ? activeConnection.title : "Ошибка сети"}
-            </Text>
-            <Text
-              style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
-              className="text-[16px]"
-            >
-              {isNetworkReachable ? "- " + "Free" : ""}
-            </Text>
-          </View>
+      <View className="flex  flex-row w-full justify-center gap-x-2 items-center h-fit">
+        <View className="rounded-full  overflow-hidden h-4 w-4 flex justify-center items-center">
+          <CountryFlag
+            isoCode={isNetworkReachable ? activeConnection.country : "eu"}
+            size={17}
+          />
+        </View>
+        <View className="flex-row gap-x-2 justify-center items-center h-full">
+          <Text
+            style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
+            className="text-[16px]"
+          >
+            {isNetworkReachable ? activeConnection.title : "Ошибка сети"}
+          </Text>
+          <Text
+            style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
+            className="text-[16px]"
+          >
+            {isNetworkReachable ? "- " + "Free" : ""}
+          </Text>
         </View>
 
-        <View className="rotate-180">
+        <View className="rotate-180 ">
           <Ionicon
             name="triangle"
             size={8}

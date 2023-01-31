@@ -129,7 +129,7 @@ export const Navigation = () => {
           headerRight: () => (
             <TouchableHighlight
               underlayColor="none"
-              className="pt-3 pr-3"
+              className=" pr-3"
               onPress={() => {
                 onShare();
               }}
