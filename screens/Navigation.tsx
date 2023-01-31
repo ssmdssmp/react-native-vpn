@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from "react";
 import firestore from "@react-native-firebase/firestore";
-import storage from "@react-native-firebase/storage";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./HomeScreen";
 import {

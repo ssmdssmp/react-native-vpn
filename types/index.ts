@@ -19,7 +19,7 @@ export type currentIPDataType = {
   timezone: string;
   zip: string;
 };
-export const currentIPDataError = {
+export const currentIPDataError: currentIPDataType = {
   as: "",
   city: "",
   country: "",
@@ -35,6 +35,7 @@ export const currentIPDataError = {
   timezone: "",
   zip: "",
 };
+
 export interface ICurrentIP {
   loadingCountryCode: string;
   data: currentIPDataType;
@@ -63,6 +64,7 @@ export interface IConnection {
   id: string;
   connectionTime: number;
 }
+
 export interface InitState {
   currentIP: ICurrentIP;
 
@@ -87,6 +89,15 @@ export interface FormValues {
   problemType: string;
   message: string;
 }
+export const connectionError: IConnection = {
+  title: "Error",
+  country: "eu",
+  url: "",
+  status: "error",
+  objectName: "",
+  id: "1",
+  connectionTime: 0,
+};
 
 export const initUser: IUser = {
   email: "",

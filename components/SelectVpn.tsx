@@ -10,7 +10,9 @@ import { setIsActiveSearch } from "../store/reducers/vpnSlice";
 const SelectVpn = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
-  const { activeConnection } = useAppSelector(({ vpn }) => vpn);
+  const { activeConnection, isNetworkReachable } = useAppSelector(
+    ({ vpn }) => vpn
+  );
   return (
     <TouchableHighlight
       style={{ backgroundColor: themeEnum.FOCUSED_COLOR }}
@@ -26,7 +28,7 @@ const SelectVpn = () => {
         <View className="flex-row w-fit items-center gap-5">
           <View className="rounded-full  overflow-hidden h-4 w-4 flex justify-center items-center">
             <CountryFlag
-              isoCode={activeConnection.country ? activeConnection.country : ""}
+              isoCode={isNetworkReachable ? activeConnection.country : "eu"}
               size={17}
             />
           </View>
@@ -35,13 +37,13 @@ const SelectVpn = () => {
               style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
               className="text-[16px]"
             >
-              {activeConnection.title ? activeConnection.title : ""}
+              {isNetworkReachable ? activeConnection.title : "Ошибка сети"}
             </Text>
             <Text
               style={{ color: themeEnum.FOCUSED_TEXT_COLOR, fontWeight: "500" }}
               className="text-[16px]"
             >
-              {"- " + "Free"}
+              {isNetworkReachable ? "- " + "Free" : ""}
             </Text>
           </View>
         </View>
