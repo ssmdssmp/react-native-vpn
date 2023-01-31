@@ -84,7 +84,6 @@ const NegativeFeedBackScreen = () => {
                       className="rounded-md"
                       key={nanoid()}
                       onPress={() => {
-                        values.problemType = item;
                         dispatch(setNegativeFeedbackReason(item));
                         values.problemType = item;
                       }}
