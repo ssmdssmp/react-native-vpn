@@ -1,45 +1,69 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TextInput, TouchableHighlight } from "react-native";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import firestore from "@react-native-firebase/firestore";
 import { themeEnum } from "../types/themeEnum";
 import RadioButton from "../components/RadioButton";
 import { nanoid } from "@reduxjs/toolkit";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setNegativeFeedbackReason } from "../store/reducers/vpnSlice";
+import { useAppSelector } from "../hooks/redux";
 import { ScrollView } from "react-native-gesture-handler";
+import { useIsFocused } from "@react-navigation/native";
+import { FormValues } from "../types";
 
 const NegativeFeedBackScreen = () => {
   const { negativeFeedBack, isNetworkReachable } = useAppSelector(
     ({ vpn }) => vpn
   );
+
   const [feedbackStatus, setFeedbackStatus] = useState("idle");
   const isNetworkReachableRef = useRef(isNetworkReachable);
   isNetworkReachableRef.current = isNetworkReachable;
-  const dispatch = useAppDispatch();
+  const formikRef = useRef<FormikProps<FormValues>>(null);
+  const isFocused = useIsFocused();
+  const [reason, setReason] = useState<string>(
+    () => negativeFeedBack.reasons[0]
+  );
+  const [message, setMessage] = useState<string>("");
+
+  const resetFormValues = () => {
+    setReason(negativeFeedBack.reasons[0]);
+    setMessage("");
+  };
+
+  useEffect(() => {
+    if (!isFocused) {
+      resetFormValues();
+      formikRef.current?.setValues({
+        problemType: reason,
+        message: "",
+      });
+    }
+  }, [isFocused]);
+
   return (
     <ScrollView className="h-screen">
       <View className=" w-full h-full bg-white">
         {feedbackStatus === "idle" ? (
           <Formik
+            enableReinitialize
+            innerRef={formikRef}
             initialValues={{
               problemType: "",
               message: "",
             }}
-            onSubmit={(values, actions) => {
+            onSubmit={(values) => {
               if (isNetworkReachableRef.current) {
                 firestore()
                   .collection("feedback")
                   .add(values)
                   .then((res) => {
-                    console.log(res);
                     setFeedbackStatus("sent");
                     setTimeout(() => {
                       setFeedbackStatus("idle");
                     }, 5000);
-                    actions.resetForm();
+                    resetFormValues();
                   })
                   .catch(() => {
                     setFeedbackStatus("error");
@@ -53,11 +77,11 @@ const NegativeFeedBackScreen = () => {
                   setFeedbackStatus("idle");
                 }, 5000);
               }
-              actions.resetForm();
+              resetFormValues();
             }}
             validationSchema={() =>
               yup.object({
-                problemType: yup.string().required("Выберите один вариант"),
+                problemType: yup.string(),
                 message: yup.string(),
               })
             }
@@ -84,7 +108,6 @@ const NegativeFeedBackScreen = () => {
                       className="rounded-md"
                       key={nanoid()}
                       onPress={() => {
-                        dispatch(setNegativeFeedbackReason(item));
                         values.problemType = item;
                       }}
                     >
@@ -95,10 +118,9 @@ const NegativeFeedBackScreen = () => {
                         className="h-12 rounded-md  flex-row items-center px-2 "
                       >
                         <RadioButton
-                          selected={
-                            negativeFeedBack.reason === item ? true : false
-                          }
+                          selected={reason === item ? true : false}
                         />
+
                         <Text
                           className="ml-2"
                           style={{ color: themeEnum.FOCUSED_TEXT_COLOR }}
@@ -116,8 +138,8 @@ const NegativeFeedBackScreen = () => {
                       Детали, пожелания или проблемы:
                     </Text>
                     <TextInput
-                      onChangeText={handleChange("message")}
-                      value={values.message}
+                      onChangeText={(text) => setMessage(text)}
+                      value={message}
                       onBlur={handleBlur("name")}
                       style={{
                         backgroundColor: themeEnum.BODY_BACKGROUD_COLOR,

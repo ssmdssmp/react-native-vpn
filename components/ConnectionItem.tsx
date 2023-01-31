@@ -8,6 +8,7 @@ import {
   setActiveConnection,
   setCurrentIPRejected,
   setIsConfigLoading,
+  setLoadingCountryCode,
 } from '../store/reducers/vpnSlice';
 import {nanoid} from '@reduxjs/toolkit';
 import {IConnection} from '../types';
@@ -28,10 +29,13 @@ const ConnectionItem = ({item}: {item: IConnection}) => {
       underlayColor={isConfigLoading ? 'transparent' : themeEnum.FOCUSED_COLOR}
       className="pl-4"
       onPress={() => {
+        
         dispatch(setCurrentIPRejected(false));
         if (isConfigLoading) {
           return;
         } else {
+         /* dispatch(setLoadingCountryCode(item.country))*/
+          
           dispatch(setIsConfigLoading(true));
           RNFS.downloadFile({
             fromUrl: item.url,

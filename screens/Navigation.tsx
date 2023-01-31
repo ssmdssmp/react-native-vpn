@@ -178,7 +178,7 @@ export const Navigation = () => {
             },
           }}
         />
-        <Drawer.Screen name="Support" component={SupportWebview} />
+        <Drawer.Screen name="Support" options={{ unmountOnBlur: true }} component={SupportWebview} />
         <Drawer.Screen name="About" component={AboutScreen} />
         <Drawer.Screen
           name="SelectVpn"
