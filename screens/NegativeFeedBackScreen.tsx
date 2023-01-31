@@ -109,6 +109,7 @@ const NegativeFeedBackScreen = () => {
                       key={nanoid()}
                       onPress={() => {
                         values.problemType = item;
+                        setReason(item);
                       }}
                     >
                       <View
@@ -152,6 +153,7 @@ const NegativeFeedBackScreen = () => {
                   </View>
                 </View>
                 <TouchableHighlight
+                  underlayColor="none"
                   onPress={handleSubmit}
                   style={{ backgroundColor: themeEnum.SUCCESS_COLOR }}
                   className="w-11/12 px-4 rounded-md h-12 flex mt-5 justify-center items-center"
