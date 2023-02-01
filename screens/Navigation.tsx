@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from "react";
 import firestore from "@react-native-firebase/firestore";
+// import storage from "@react-native-firebase/storage";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./HomeScreen";
 import {
@@ -56,6 +57,14 @@ export const Navigation = () => {
   };
 
   useEffect(() => {
+    // storage()
+    //   .ref("ovpn")
+    //   .listAll()
+    //   .then((res) =>
+    //     res.items.map((item) =>
+    //       item.getDownloadURL().then((res) => console.log(res))
+    //     )
+    //   );
     NetInfo.fetch()
       .then((res) => dispatch(setIsNetworkReachable(res.isConnected)))
       .catch((err) => console.log(err));

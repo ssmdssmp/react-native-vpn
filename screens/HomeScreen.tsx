@@ -1,21 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text} from 'react-native';
-import React from 'react';
-import {ConnectButton} from '../components/ConnectButton';
-import {themeEnum} from '../types/themeEnum';
-import SelectVpn from '../components/SelectVpn';
-import CurrentIP from '../components/CurrentIP';
-import ProtectionAlert from '../components/ProtectionAlert';
-import {useAppSelector} from '../hooks/redux';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import { View, Text } from "react-native";
+import React from "react";
+import { ConnectButton } from "../components/ConnectButton";
+import { themeEnum } from "../types/themeEnum";
+import SelectVpn from "../components/SelectVpn";
+import CurrentIP from "../components/CurrentIP";
+import ProtectionAlert from "../components/ProtectionAlert";
+import { useAppSelector } from "../hooks/redux";
+import Ionicon from "react-native-vector-icons/Ionicons";
 
 const HomeScreen = () => {
-  const {connectionState, currentIP} = useAppSelector(({vpn}) => vpn);
+  const { connectionState, currentIP } = useAppSelector(({ vpn }) => vpn);
 
   return (
     <View
-      style={{backgroundColor: themeEnum.BODY_BACKGROUD_COLOR}}
-      className="w-full  h-full pt-3 pb-10 relative justify-between items-center">
+      style={{ backgroundColor: themeEnum.BODY_BACKGROUD_COLOR }}
+      className="w-full  h-full pt-3 pb-10 relative justify-between items-center"
+    >
       <View className="flex-col items-center w-full">
         <SelectVpn />
         <CurrentIP />
@@ -29,12 +30,13 @@ const HomeScreen = () => {
               : currentIP.loading
               ? themeEnum.ORANGE_COLOR
               : themeEnum.RED_COLOR,
-          }}>
+          }}
+        >
           {currentIP.rejected
-            ? 'Ошибка подключения. Проверьте настройки сети или попробуйте другой сервер'
+            ? "Ошибка подключения. Проверьте настройки сети или попробуйте другой сервер"
             : currentIP.loading
-            ? ' Проверка IP-адреса'
-            : ''}
+            ? " Проверка IP-адреса"
+            : ""}
         </Text>
       </View>
 

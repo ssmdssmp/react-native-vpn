@@ -74,11 +74,6 @@ export const ConnectButton = () => {
         connectionTime: 0,
       })
       .then(() => {
-        console.log({
-          ...activeConnectionRef.current,
-          status: "error",
-          connectionTime: 0,
-        });
         const newFreeVpnList = [
           ...freeVpnList.filter(
             (el) => el.id !== activeConnectionRef.current.id
@@ -146,7 +141,6 @@ export const ConnectButton = () => {
   useEffect(() => {
     if (
       connectionState.state === 2 &&
-      currentIP.loading === false &&
       new Date().getSeconds() - connectionStartTime !== 0
     ) {
       const connectionTime = new Date().getSeconds() - connectionStartTime;
@@ -155,10 +149,15 @@ export const ConnectButton = () => {
         .doc(activeConnectionRef.current.id)
         .set({
           ...activeConnectionRef.current,
+          status: "active",
           connectionTime,
         });
       dispatch(
-        setActiveConnection({ ...activeConnectionRef.current, connectionTime })
+        setActiveConnection({
+          ...activeConnectionRef.current,
+          status: "active",
+          connectionTime,
+        })
       );
 
       dispatch(getCurrentIP());
@@ -229,9 +228,12 @@ export const ConnectButton = () => {
             }).then(() => {
               const checkConnectionTimeout = setTimeout(() => {
                 if (connectionStateRef.current.state === 1) {
+                  if (activeConnectionRef.current.id === activeConnection.id) {
+                    setErrorAndReconnect();
+                  }
                   clearTimeout(checkConnectionTimeout);
-                  setErrorAndReconnect();
-                } else {
+                }
+                if (connectionStateRef.current.state === 2) {
                   if (activeConnectionRef.current.status === "error") {
                     firestore()
                       .collection("ovpn")
@@ -256,6 +258,7 @@ export const ConnectButton = () => {
                         dispatch(setFreeVpnList(newFreeVpnList));
                       })
                       .catch((err) => console.log(err));
+                  } else {
                   }
                   if (userRef.current.settings.killswitch === true) {
                     const checkConnectionInterval = setInterval(() => {
@@ -293,8 +296,8 @@ export const ConnectButton = () => {
     ) {
       stopOvpn().then(() =>
         RNFS.downloadFile({
-          fromUrl: `${activeConnection.url}`,
-          toFile: `${configFileFolder}/${activeConnection.objectName}`,
+          fromUrl: `${activeConnectionRef.current.url}`,
+          toFile: `${configFileFolder}/${activeConnectionRef.current.objectName}`,
         })
           .promise.then((res) => {
             if (res.statusCode === 200) {
