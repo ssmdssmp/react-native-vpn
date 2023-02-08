@@ -1,17 +1,15 @@
-import { Share } from 'react-native';
+import { Share } from "react-native";
 
 let isOpenedShare = false;
 
 const onShare = async () => {
   if (!isOpenedShare) {
-
     isOpenedShare = true;
-    setTimeout(() => isOpenedShare = false, 1000)
+    setTimeout(() => (isOpenedShare = false), 1000);
 
     try {
       const result = await Share.share({
-        message:
-          'https://freevpnplanet.com/download',
+        message: "https://freevpnplanet.com/download",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -25,7 +23,6 @@ const onShare = async () => {
     } catch (error) {
       console.log(error);
     }
-
   }
 };
 
