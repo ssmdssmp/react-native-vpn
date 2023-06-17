@@ -4,9 +4,16 @@
 
 Working OpenVPN app with country selector
 
-<img width="200" alt="image" src="https://github.com/ssmdssmp/weather-react-native/assets/screenshots/screen-1.png">
-<img width="200" alt="image" src="https://github.com/matvii1/nativetest/assets/101810764/acd2f17f-8159-4328-ad79-c8407dc449fc">
-<img width="200" alt="image" src="https://github.com/matvii1/nativetest/assets/101810764/16e93229-9fed-4232-909b-e5b32edaa64f">
+<img width="200" alt="image" src="https://github.com/ssmdssmp/react-native-vpn/assets/93074427/477cb6b7-8ea8-4d41-ad98-59a19d1a1bb1">
+<img width="200" alt="image" src="https://github.com/ssmdssmp/react-native-vpn/assets/93074427/5c41529d-c34d-41ac-ad2f-ce0aedabf0d8">
+<img width="200" alt="image" src="https://github.com/ssmdssmp/react-native-vpn/assets/93074427/85e9910b-da02-4403-acb4-5295657fd2f2">
+<img width="200" alt="image" src="https://github.com/ssmdssmp/react-native-vpn/assets/93074427/c0c60926-0d00-41b0-97d2-6527073181a3">
+
+
+
+
+
+
 
 ## Prerequisites
 
